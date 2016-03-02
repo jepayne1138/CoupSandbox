@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">COUP</string>
+    <!-- Content Descriptions -->
+    <string name="buttonCoinUpDesc">Increase coin count</string>
+    <string name="imageCoinBackgroundDesc">Coin count background</string>
+    <string name="buttonCoinDownDesc">Decrease coin count</string>
+    <string name="imageDeckDesc">Deck interaction icon</string>
+</resources>
