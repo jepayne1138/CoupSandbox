@@ -1,4 +1,4 @@
-package jepayne1138.gmail.com.helloworld;
+package jepayne1138.gmail.com.coupsandbox;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
