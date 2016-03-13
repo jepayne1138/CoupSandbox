@@ -1,11 +1,14 @@
 package jepayne1138.gmail.com.coupsandbox;
 
+import android.databinding.DataBindingUtil;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import jepayne1138.gmail.com.coupsandbox.databinding.PlayerListBinding;
 
 /**
  * Created by Jim on 3/7/2016.
@@ -14,6 +17,7 @@ public class PlayerListAdapter extends BaseAdapter {
 
     final private Game game;
     final private LayoutInflater inflater;
+    private PlayerListBinding binding;
 
     PlayerListAdapter(Game game, Context context) {
         // Constructor
@@ -38,18 +42,10 @@ public class PlayerListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.player_list_layout, parent, false);
-        }
+        binding = DataBindingUtil.inflate(inflater, R.layout.player_list, parent, false);
 
-        TextView textScreenName = (TextView)convertView.findViewById(R.id.textListPlayerScreenName);
-        TextView textCoins = (TextView)convertView.findViewById(R.id.textListPlayerCoins);
+        binding.setPlayer(game.getPlayer(position));
 
-        Player thisPlayer = game.getPlayer(position);
-
-        textScreenName.setText(thisPlayer.getScreenName());
-        textCoins.setText(Integer.toString(thisPlayer.getCoins()));
-
-        return convertView;
+        return binding.getRoot();
     }
 }

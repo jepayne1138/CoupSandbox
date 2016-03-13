@@ -33,17 +33,21 @@ public class Game {
      * Return a copy of the deck
      */
     public Deck getDeck() {
-        return new Deck(deck);
+        return deck;
     }
 
     /*
      * Returns a copy of the list of players
      */
     public List<Player> getPlayers() {
-        return new ArrayList<Player>(players);
+        return players;
     }
 
     public Player getPlayer(int position) {
-        return new Player(players.get(position));
+        return players.get(position);
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 }

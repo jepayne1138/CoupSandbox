@@ -1,99 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/charcoalGrey"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="jepayne1138.gmail.com.coupsandbox.MainActivity">
+<!-- This is added for databinding -->
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <data>
+        <variable
+            name="curPlayer"
+            type="jepayne1138.gmail.com.coupsandbox.Player" />
+    </data>
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:id="@+id/listPlayers"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_above="@+id/frameHand" />
+    <RelativeLayout
+        android:background="@color/charcoalGrey"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="jepayne1138.gmail.com.coupsandbox.MainActivity">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:id="@+id/frameHand"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignTop="@+id/imageDeck"
-        android:layout_toStartOf="@+id/imageCoinBackground"
-        android:layout_toLeftOf="@+id/imageCoinBackground" />
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/listPlayers"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/frameHand" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonCoinUp"
-        android:src="@drawable/arrow_up"
-        android:background="@null"
-        android:layout_alignStart="@+id/imageCoinBackground"
-        android:layout_alignEnd="@+id/imageCoinBackground"
-        android:layout_alignLeft="@+id/imageCoinBackground"
-        android:layout_alignRight="@+id/imageCoinBackground"
-        android:layout_above="@+id/imageCoinBackground"
-        android:contentDescription="@string/buttonCoinUpDesc" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/frameHand"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignTop="@+id/imageDeck"
+            android:layout_toStartOf="@+id/imageCoinBackground"
+            android:layout_toLeftOf="@+id/imageCoinBackground" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageCoinBackground"
-        android:layout_above="@+id/buttonCoinDown"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/coup_coin"
-        android:contentDescription="@string/imageCoinBackgroundDesc" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonCoinUp"
+            android:src="@drawable/arrow_up"
+            android:background="@null"
+            android:layout_alignStart="@+id/imageCoinBackground"
+            android:layout_alignEnd="@+id/imageCoinBackground"
+            android:layout_alignLeft="@+id/imageCoinBackground"
+            android:layout_alignRight="@+id/imageCoinBackground"
+            android:layout_above="@+id/imageCoinBackground"
+            android:contentDescription="@string/buttonCoinUpDesc"
+            android:onClick="buttonCoinUpOnClick" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textCoinCount"
-        android:textSize="32sp"
-        android:layout_alignTop="@+id/imageCoinBackground"
-        android:layout_alignStart="@+id/imageCoinBackground"
-        android:layout_alignEnd="@+id/imageCoinBackground"
-        android:layout_alignLeft="@+id/imageCoinBackground"
-        android:layout_alignBottom="@+id/imageCoinBackground"
-        android:layout_alignRight="@+id/imageCoinBackground"
-        android:gravity="center" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageCoinBackground"
+            android:layout_above="@+id/buttonCoinDown"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/coup_coin"
+            android:contentDescription="@string/imageCoinBackgroundDesc" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonCoinDown"
-        android:src="@drawable/arrow_down"
-        android:background="@null"
-        android:layout_alignStart="@+id/imageCoinBackground"
-        android:layout_alignEnd="@+id/imageCoinBackground"
-        android:layout_alignLeft="@+id/imageCoinBackground"
-        android:layout_alignRight="@+id/imageCoinBackground"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:contentDescription="@string/buttonCoinDownDesc" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textCoinCount"
+            android:textSize="32sp"
+            android:layout_alignTop="@+id/imageCoinBackground"
+            android:layout_alignStart="@+id/imageCoinBackground"
+            android:layout_alignEnd="@+id/imageCoinBackground"
+            android:layout_alignLeft="@+id/imageCoinBackground"
+            android:layout_alignBottom="@+id/imageCoinBackground"
+            android:layout_alignRight="@+id/imageCoinBackground"
+            android:gravity="center"
+            android:text="@{Integer.toString(curPlayer.coins)}" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageDeck"
-        android:layout_above="@+id/buttonCoinUp"
-        android:layout_alignStart="@+id/imageCoinBackground"
-        android:layout_alignEnd="@+id/imageCoinBackground"
-        android:layout_alignLeft="@+id/imageCoinBackground"
-        android:layout_alignRight="@+id/imageCoinBackground"
-        android:src="@drawable/deck"
-        android:contentDescription="@string/imageDeckDesc" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonCoinDown"
+            android:src="@drawable/arrow_down"
+            android:background="@null"
+            android:layout_alignStart="@+id/imageCoinBackground"
+            android:layout_alignEnd="@+id/imageCoinBackground"
+            android:layout_alignLeft="@+id/imageCoinBackground"
+            android:layout_alignRight="@+id/imageCoinBackground"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/buttonCoinDownDesc"
+            android:onClick="buttonCoinDownOnClick" />
 
-</RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageDeck"
+            android:layout_above="@+id/buttonCoinUp"
+            android:layout_alignStart="@+id/imageCoinBackground"
+            android:layout_alignEnd="@+id/imageCoinBackground"
+            android:layout_alignLeft="@+id/imageCoinBackground"
+            android:layout_alignRight="@+id/imageCoinBackground"
+            android:src="@drawable/deck"
+            android:contentDescription="@string/imageDeckDesc" />
+
+    </RelativeLayout>
+</layout>

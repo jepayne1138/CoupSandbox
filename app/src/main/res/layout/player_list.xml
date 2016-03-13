@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<!-- This is added for databinding -->
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+        <variable
+            name="player"
+            type="jepayne1138.gmail.com.coupsandbox.Player" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -26,7 +36,8 @@
         android:src="@drawable/hidden_icon"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginRight="4dp" />
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -40,12 +51,12 @@
         android:src="@drawable/coup_coin_icon"
         android:layout_marginTop="4dp"
         android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jim"
         android:id="@+id/textListPlayerScreenName"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/imageListCoinsBackground"
@@ -55,12 +66,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:gravity="left|center_vertical" />
+        android:gravity="left|center_vertical"
+        android:text="@{player.screenName}" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12"
         android:id="@+id/textListPlayerCoins"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/imageListCoinsBackground"
@@ -69,5 +80,7 @@
         android:layout_alignEnd="@+id/imageListCoinsBackground"
         android:layout_alignBottom="@+id/imageListCoinsBackground"
         android:layout_alignTop="@+id/imageListCoinsBackground"
-        android:gravity="center" />
-</RelativeLayout>
+        android:gravity="center"
+        android:text="@{Integer.toString(player.coins)}" />
+    </RelativeLayout>
+</layout>
