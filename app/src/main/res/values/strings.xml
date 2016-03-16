@@ -5,4 +5,5 @@
     <string name="imageCoinBackgroundDesc">Coin count background</string>
     <string name="buttonCoinDownDesc">Decrease coin count</string>
     <string name="imageDeckDesc">Deck interaction icon</string>
+    <string name="title_activity_launcher">LauncherActivity</string>
 </resources>
