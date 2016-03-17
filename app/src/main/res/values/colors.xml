@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#333333</color>
     <color name="colorAccent">#ffffff</color>
     <color name="charcoalGrey">#747D7D</color>
+    <color name="hoverColor">#303030</color>
 </resources>
