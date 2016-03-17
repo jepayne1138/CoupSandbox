@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+        <variable
+            name="player"
+            type="com.jepaynedev.coupsandbox.Player" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageListInfluenceIcon1"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/hidden_icon"
+            android:layout_margin="4dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageListInfluenceIcon2"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageListInfluenceIcon1"
+            android:layout_toEndOf="@+id/imageListInfluenceIcon1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/hidden_icon"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginEnd="4dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageListCoinsBackground"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageListInfluenceIcon2"
+            android:layout_toEndOf="@+id/imageListInfluenceIcon2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/coup_coin_icon"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textListPlayerScreenName"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageListCoinsBackground"
+            android:layout_toEndOf="@+id/imageListCoinsBackground"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:gravity="left|center_vertical"
+            android:text="@{player.screenName}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textListPlayerCoins"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/imageListCoinsBackground"
+            android:layout_alignStart="@+id/imageListCoinsBackground"
+            android:layout_alignRight="@+id/imageListCoinsBackground"
+            android:layout_alignEnd="@+id/imageListCoinsBackground"
+            android:layout_alignBottom="@+id/imageListCoinsBackground"
+            android:layout_alignTop="@+id/imageListCoinsBackground"
+            android:gravity="center"
+            android:text="@{Integer.toString(player.coins)}" />
+    </RelativeLayout>
+</layout>

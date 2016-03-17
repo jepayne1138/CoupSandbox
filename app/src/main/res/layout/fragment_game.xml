@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This is added for databinding -->
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
@@ -13,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/charcoalGrey"
-        tools:context="com.jepaynedev.coupsandbox.MainActivity">
+        tools:context="com.jepaynedev.coupsandbox.CoupActivity">
 
         <ListView
             android:layout_width="wrap_content"
@@ -48,8 +47,7 @@
             android:layout_alignLeft="@+id/imageCoinBackground"
             android:layout_alignRight="@+id/imageCoinBackground"
             android:layout_above="@+id/imageCoinBackground"
-            android:contentDescription="@string/buttonCoinUpDesc"
-            android:onClick="buttonCoinUpOnClick" />
+            android:contentDescription="@string/buttonCoinUpDesc" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -89,8 +87,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:contentDescription="@string/buttonCoinDownDesc"
-            android:onClick="buttonCoinDownOnClick" />
+            android:contentDescription="@string/buttonCoinDownDesc" />
 
         <ImageView
             android:layout_width="wrap_content"
