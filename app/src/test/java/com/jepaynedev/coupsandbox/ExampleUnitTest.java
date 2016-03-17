@@ -1,4 +1,4 @@
-package com.gmail.jepayne1138.coupsandbox;
+package com.jepaynedev.coupsandbox;
 
 import org.junit.Test;
 

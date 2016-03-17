@@ -1,4 +1,4 @@
-package com.gmail.jepayne1138.coupsandbox;
+package com.jepaynedev.coupsandbox;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
