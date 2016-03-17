@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="jepayne1138.gmail.com.coupsandbox" >
+    package="com.gmail.jepayne1138.coupsandbox" >
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LauncherActivity" >
+            android:name="com.gmail.jepayne1138.coupsandbox.LauncherActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity" >
+            android:name="com.gmail.jepayne1138.coupsandbox.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

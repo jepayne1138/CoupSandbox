@@ -1,4 +1,4 @@
-package jepayne1138.gmail.com.coupsandbox;
+package com.gmail.jepayne1138.coupsandbox;
 
 /**
  * Created by Jim on 3/7/2016.

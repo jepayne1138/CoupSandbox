@@ -1,4 +1,4 @@
-package jepayne1138.gmail.com.coupsandbox;
+package com.gmail.jepayne1138.coupsandbox;
 
 import android.databinding.DataBindingUtil;
 import android.content.Context;
@@ -6,9 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
-import jepayne1138.gmail.com.coupsandbox.databinding.PlayerListBinding;
+import com.gmail.jepayne1138.coupsandbox.databinding.PlayerListBinding;
 
 /**
  * Created by Jim on 3/7/2016.

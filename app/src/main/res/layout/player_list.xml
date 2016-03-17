@@ -5,7 +5,7 @@
     <data>
         <variable
             name="player"
-            type="jepayne1138.gmail.com.coupsandbox.Player" />
+            type="com.gmail.jepayne1138.coupsandbox.Player" />
     </data>
 
     <RelativeLayout

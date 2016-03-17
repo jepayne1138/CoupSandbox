@@ -1,13 +1,13 @@
-package jepayne1138.gmail.com.coupsandbox;
+package com.gmail.jepayne1138.coupsandbox;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import jepayne1138.gmail.com.coupsandbox.databinding.ActivityMainBinding;
+import com.gmail.jepayne1138.coupsandbox.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        Intent intent = getIntent();
         // Create the game instance
-        game.setCurrentPlayer(game.addPlayer("Jim"));
+        game.setCurrentPlayer(game.addPlayer(intent.getStringExtra(LauncherActivity.CUR_PLAYER_SCREENNAME)));
         game.addPlayer("Casey");
         game.addPlayer("Caitlin");
         game.addPlayer("Adrian");
