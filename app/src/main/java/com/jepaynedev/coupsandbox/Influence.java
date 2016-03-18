@@ -59,4 +59,23 @@ public class Influence {
     public void hide() {
         revealed = false;
     }
+
+    /*
+     * Returns the id for the drawable resource for the given type
+     */
+    public int getDrawable() {
+        switch (character) {
+            case DUKE:
+                return R.drawable.card_duke;
+            case AMBASSADOR:
+                return R.drawable.card_ambassador;
+            case ASSASSIN:
+                return R.drawable.card_assassin;
+            case CONTESSA:
+                return R.drawable.card_contessa;
+            case CAPTAIN:
+                return R.drawable.card_captain;
+        }
+        return 0;
+    }
 }

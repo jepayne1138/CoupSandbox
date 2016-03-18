@@ -23,18 +23,30 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_above="@+id/frameHand" />
+            android:layout_above="@+id/scrollHand" />
 
-        <FrameLayout
+        <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:id="@+id/frameHand"
+            android:id="@+id/scrollHand"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_alignTop="@+id/imageDeck"
             android:layout_toStartOf="@+id/imageCoinBackground"
-            android:layout_toLeftOf="@+id/imageCoinBackground" />
+            android:layout_toLeftOf="@+id/imageCoinBackground"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:id="@+id/layoutHand"
+                android:padding="10dp">
+
+            </RelativeLayout>
+        </HorizontalScrollView>
 
         <ImageButton
             android:layout_width="wrap_content"

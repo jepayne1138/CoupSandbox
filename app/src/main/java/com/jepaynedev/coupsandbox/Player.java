@@ -79,4 +79,26 @@ public class Player extends BaseObservable {
         }
         return false;
     }
+
+    /*
+     * Returns a reference to the list of Influence instances
+     */
+    @Bindable
+    public List<Influence> getInfluence() {
+        return influence;
+    }
+
+    /*
+     * Adds a new influence, returns null if no cards left in the deck
+     */
+    public boolean drawInfluenceCard(Deck deck) {
+        Character character = deck.drawCard();
+        if (character == null) {
+            return false;
+        }
+        influence.add(new Influence(character));
+        notifyPropertyChanged(BR.influence);
+
+        return true;
+    }
 }
