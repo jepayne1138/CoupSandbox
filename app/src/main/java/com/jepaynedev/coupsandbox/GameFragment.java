@@ -1,27 +1,29 @@
 package com.jepaynedev.coupsandbox;
 
 
-import android.app.ActionBar;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 import com.jepaynedev.coupsandbox.databinding.FragmentGameBinding;
-
-import java.util.InvalidPropertiesFormatException;
 
 
 /**
@@ -51,13 +53,13 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
         // Set the current user to the data model in the binding
         binding.setCurPlayer(game.getCurrentPlayer());
 
+        // Draw the initial hand of cards
+        drawHandOnCreate();
+
         // Initialize the player list view
         ListView playerListView = (ListView) fragmentView.findViewById(R.id.listPlayers);
         PlayerListAdapter playerListAdapter = new PlayerListAdapter(game, getActivity());
         playerListView.setAdapter(playerListAdapter);
-
-        // Draw the initial hand of cards
-        drawInfluence();
 
         // Set buttons to use this interface as the onClick listener
         ((ImageButton)(fragmentView.findViewById(R.id.buttonCoinUp))).setOnClickListener(this);
@@ -161,12 +163,66 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
             }
             leftInfluence = influence;
-            influenceImage.setImageResource(influence.getDrawable());
+
+            // Get Drawable card image
+//            Log.d("scrollHand.getHeight()", Integer.toString(scrollHand.getHeight()));
+            Drawable drawableInfluence = ContextCompat.getDrawable(getActivity(), influence.getDrawableId());
+
+            influenceImage.setImageBitmap(scaleByHeight(drawableInfluence, scrollHand.getHeight()));
             layoutHand.addView(influenceImage);
         }
 
         // Debug widths
         Log.d("scrollHand.getWidth()", Integer.toString(scrollHand.getWidth()));
         Log.d("layoutHand.getWidth()", Integer.toString(layoutHand.getWidth()));
+    }
+
+    /*
+     * Wrapper for the scaleByHeight method that can take a Drawable
+     */
+    private Bitmap scaleByHeight(Drawable draw, int newHeight) {
+        Bitmap bm = ((BitmapDrawable)draw).getBitmap();
+        return scaleByHeight(bm, newHeight);
+    }
+
+    /*
+     * Creates a copy of a Bitmap scaled with the requested height but retaining the same aspect
+     * ratio as closly as possible
+     */
+    private Bitmap scaleByHeight(Bitmap bm, int newHeight) {
+        int origHeight = bm.getHeight();
+        int origWidth = bm.getWidth();
+
+        // Calculate the reduction amount percentage
+        double scale = ((double)newHeight) / origHeight;
+
+        int newWidth = (int) (origWidth * scale);
+
+        return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);
+    }
+
+    /*
+     * Creates a listener that add the initial opening hand images when the layout is drawn, and
+     * removes the listener so it is only called once
+     */
+    private void drawHandOnCreate() {
+        final View v = fragmentView;
+        v.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                    @Override
+                    public void onGlobalLayout() {
+
+                        // only want to do this once
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                            v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        } else {
+                            v.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+
+                        // Now that we can get a height for the cards, draw the influence
+                        drawInfluence();
+                    }
+                });
     }
 }

@@ -63,7 +63,7 @@ public class Influence {
     /*
      * Returns the id for the drawable resource for the given type
      */
-    public int getDrawable() {
+    public int getDrawableId() {
         switch (character) {
             case DUKE:
                 return R.drawable.card_duke;
