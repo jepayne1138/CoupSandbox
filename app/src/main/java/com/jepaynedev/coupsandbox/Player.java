@@ -101,4 +101,20 @@ public class Player extends BaseObservable {
 
         return true;
     }
+
+    /*
+     * Returns a card with a specified id to the given deck.
+     * Used by the return swipe to return a card from the hand to the deck.
+     *
+     * Returns true if successfully returned
+     */
+    public boolean returnInfluenceCard(Deck deck, int id) {
+        Influence inf;
+        for (int i=0; i<influence.size(); i++) {
+            if (influence.get(i).getId() == id) {
+                deck.returnCard(influence.remove(1).getCharacter());
+            }
+        }
+        return false;
+    }
 }

@@ -7,6 +7,7 @@ public class Influence {
 
     private Character character;
     private boolean revealed;
+    private int id;
 
     /*
      * Constructs a new Influence instance, defaulting revealed to false
@@ -77,5 +78,13 @@ public class Influence {
                 return R.drawable.card_captain;
         }
         return 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

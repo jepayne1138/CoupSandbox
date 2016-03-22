@@ -99,7 +99,6 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
             case R.id.imageDeck:
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     // Localstate indicates the origin is the deck'
-                    // TODO: Changing local state to be null for deck and to pass a card reference of some kind for card drags
                     v.startDrag(null, new View.DragShadowBuilder(v), null, 0);
                     return true;
                 }
@@ -112,8 +111,8 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
                         return true;
                     case MotionEvent.ACTION_MOVE:
                         if (startY - event.getY() > SWIPE_UP_CARD_THRESHOLD) {
-                            v.startDrag(null, new View.DragShadowBuilder(v), DRAG_FLAG_CARD, 0);
                             Log.d("Card Drag", "Card ID: " + Integer.toString(v.getId()));
+                            v.startDrag(null, new View.DragShadowBuilder(v), v.getId(), 0);
                             return true;
                         }
                 }
@@ -126,16 +125,12 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
     public boolean onDrag(View v, DragEvent event) {
         // Set valid destination views ids
         List<Integer> validDestIds = new ArrayList<Integer>();
-        switch ((String)event.getLocalState()) {
-            case DRAG_FLAG_DECK:
-                validDestIds.add(R.id.frameHand);
-                break;
-            case DRAG_FLAG_CARD:
-                validDestIds.add(R.id.imageDeck);
-                validDestIds.add(R.id.listPlayers);
-                break;
+        if (event.getLocalState() == null) {
+            validDestIds.add(R.id.frameHand);
+        } else {
+            validDestIds.add(R.id.imageDeck);
+            validDestIds.add(R.id.listPlayers);
         }
-
 
 //        Log.d("debug", "view.getID() = " + Integer.toString(v.getId()));
 //        Log.d("debug", "event.getAction() = " + event.getAction());
@@ -159,7 +154,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
             case DragEvent.ACTION_DROP:
                 if (validDestIds.contains(v.getId())) {
                     // Remove the border as it doesn't seem to send ACTION_DRAG_EXITED
-                    // TODO:  Look into ACTION_DRAG_EXITED should be called after ACTION_DROP
+                    // TODO:  Look into if ACTION_DRAG_EXITED should be called after ACTION_DROP
                     v.setBackgroundResource(0);
                 }
 
@@ -171,6 +166,11 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
                         }
                         return false;
                     case R.id.imageDeck:
+                        int imageId = (Integer)event.getLocalState();
+                        // TODO:  Incorrect influences being returned (pos ID clash or incorrectly set ids?)
+                        game.getCurrentPlayer().returnInfluenceCard(game.getDeck(), imageId);
+                        // Redraw the influences
+                        drawInfluence();
                         return true;
                 }
         }
@@ -179,8 +179,6 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
     }
 
     private void drawInfluence() {
-        // TODO:  Figure out why it's adding 300 more to the right of every image, only want padding left, not right
-
         // Get a reference to the scrollview that holds the hand
         HorizontalScrollView scrollHand = (HorizontalScrollView) fragmentView.findViewById(R.id.scrollHand);
         // Get a reference to the layout in the scrollview that actually holds the images
@@ -192,11 +190,13 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
         int marginWidth = scrollHand.getWidth() / 2;
 
         // Redraw all cards
+        List<Influence> influences = game.getCurrentPlayer().getInfluence();
         Influence leftInfluence = null;  // Influence image last place
-        for (int i=0; i<game.getCurrentPlayer().getInfluence().size(); i++) {
-            Influence influence = game.getCurrentPlayer().getInfluence().get(i);
+        for (int i=0; i<influences.size(); i++) {
+            Influence influence = influences.get(i);
             ImageView influenceImage = new ImageView(getActivity());
             influenceImage.setId(i);
+            influence.setId(influenceImage.getId());
             if (leftInfluence != null) {
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams
                         (RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
