@@ -25,15 +25,25 @@ import android.widget.RelativeLayout;
 
 import com.jepaynedev.coupsandbox.databinding.FragmentGameBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class GameFragment extends Fragment implements View.OnClickListener, View.OnDragListener, View.OnTouchListener {
 
+    private final String DRAG_FLAG_DECK = "com.jepaynedev.coupsandbox.DECK";
+    private final String DRAG_FLAG_CARD = "com.jepaynedev.coupsandbox.CARD";
+    private final float SWIPE_UP_CARD_THRESHOLD = 100;
+
+
     private GameManager game;
-    FragmentGameBinding binding;
-    View fragmentView;
+    private FragmentGameBinding binding;
+    private View fragmentView;
+    private float startX;  // Save initial onTouch down location X value
+    private float startY;  // Save initial onTouch down location Y value
 
     public GameFragment() {
         // Required empty public constructor
@@ -66,7 +76,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
         ((ImageButton)(fragmentView.findViewById(R.id.buttonCoinDown))).setOnClickListener(this);
         ((ImageView)(fragmentView.findViewById(R.id.imageDeck))).setOnTouchListener(this);
         ((ImageView)(fragmentView.findViewById(R.id.imageDeck))).setOnDragListener(this);
-        ((FrameLayout)(fragmentView.findViewById(R.id.scrollHand))).setOnDragListener(this);
+        ((FrameLayout)(fragmentView.findViewById(R.id.frameHand))).setOnDragListener(this);
 
         return binding.getRoot();
     }
@@ -85,15 +95,48 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            v.startDrag(null, new View.DragShadowBuilder(v), v, 0);
-            return true;
+        switch (v.getId()) {
+            case R.id.imageDeck:
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    // Localstate indicates the origin is the deck'
+                    // TODO: Changing local state to be null for deck and to pass a card reference of some kind for card drags
+                    v.startDrag(null, new View.DragShadowBuilder(v), null, 0);
+                    return true;
+                }
+            default:
+                // Handles the dynamically added images
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startX = event.getX();
+                        startY = event.getY();
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        if (startY - event.getY() > SWIPE_UP_CARD_THRESHOLD) {
+                            v.startDrag(null, new View.DragShadowBuilder(v), DRAG_FLAG_CARD, 0);
+                            Log.d("Card Drag", "Card ID: " + Integer.toString(v.getId()));
+                            return true;
+                        }
+                }
         }
+
         return false;
     }
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
+        // Set valid destination views ids
+        List<Integer> validDestIds = new ArrayList<Integer>();
+        switch ((String)event.getLocalState()) {
+            case DRAG_FLAG_DECK:
+                validDestIds.add(R.id.frameHand);
+                break;
+            case DRAG_FLAG_CARD:
+                validDestIds.add(R.id.imageDeck);
+                validDestIds.add(R.id.listPlayers);
+                break;
+        }
+
+
 //        Log.d("debug", "view.getID() = " + Integer.toString(v.getId()));
 //        Log.d("debug", "event.getAction() = " + event.getAction());
         // Handles event actions
@@ -103,29 +146,33 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
                 return true;
             case DragEvent.ACTION_DRAG_ENTERED:
 //                Log.d("debug", "event.getAction() = ACTION_DRAG_ENTERED");
-                if (v.getId() == R.id.scrollHand) {
+                if (validDestIds.contains(v.getId())) {
                     v.setBackgroundResource(R.drawable.layout_hover_border);
                 }
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
 //                Log.d("debug", "event.getAction() = ACTION_DRAG_EXITED");
-                if (v.getId() == R.id.scrollHand) {
+                if (validDestIds.contains(v.getId())) {
                     v.setBackgroundResource(0);
                 }
                 break;
             case DragEvent.ACTION_DROP:
-                if (v.getId() == R.id.scrollHand) {
+                if (validDestIds.contains(v.getId())) {
                     // Remove the border as it doesn't seem to send ACTION_DRAG_EXITED
                     // TODO:  Look into ACTION_DRAG_EXITED should be called after ACTION_DROP
                     v.setBackgroundResource(0);
-
-                    // Continue with dropping the new card
-                    if (game.getCurrentPlayer().drawInfluenceCard(game.getDeck())) {
-                        drawInfluence();
-                        return true;
-                    }
                 }
-                return false;
+
+                switch (v.getId()) {
+                    case R.id.frameHand:
+                        if (game.getCurrentPlayer().drawInfluenceCard(game.getDeck())) {
+                            drawInfluence();
+                            return true;
+                        }
+                        return false;
+                    case R.id.imageDeck:
+                        return true;
+                }
         }
 
         return false;
@@ -168,13 +215,16 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
 //            Log.d("scrollHand.getHeight()", Integer.toString(scrollHand.getHeight()));
             Drawable drawableInfluence = ContextCompat.getDrawable(getActivity(), influence.getDrawableId());
 
+            // Set ImageView onTouchListener
+            influenceImage.setOnTouchListener(this);
+
             influenceImage.setImageBitmap(scaleByHeight(drawableInfluence, scrollHand.getHeight()));
             layoutHand.addView(influenceImage);
         }
 
         // Debug widths
-        Log.d("scrollHand.getWidth()", Integer.toString(scrollHand.getWidth()));
-        Log.d("layoutHand.getWidth()", Integer.toString(layoutHand.getWidth()));
+//        Log.d("scrollHand.getWidth()", Integer.toString(scrollHand.getWidth()));
+//        Log.d("layoutHand.getWidth()", Integer.toString(layoutHand.getWidth()));
     }
 
     /*

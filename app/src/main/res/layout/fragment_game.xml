@@ -23,29 +23,35 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_above="@+id/scrollHand" />
+            android:layout_above="@+id/frameHand" />
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/scrollHand"
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/frameHand"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_alignTop="@+id/imageDeck"
-            android:layout_toStartOf="@+id/imageCoinBackground"
             android:layout_toLeftOf="@+id/imageCoinBackground"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_toStartOf="@+id/imageCoinBackground">
+            <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/scrollHand"
+                android:padding="8dp">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:id="@+id/layoutHand">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutHand">
 
-            </RelativeLayout>
-        </HorizontalScrollView>
+                </RelativeLayout>
+            </HorizontalScrollView>
+        </FrameLayout>
 
         <ImageButton
             android:layout_width="wrap_content"
