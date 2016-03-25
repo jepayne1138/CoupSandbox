@@ -87,4 +87,9 @@ public class Influence {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String toString() {
+        return "(Char: " + getCharacter().name() + ", Id: " + Integer.toString(getId()) +
+                ", Revealed: " + isRevealed() + ")";
+    }
 }

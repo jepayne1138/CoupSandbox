@@ -2,6 +2,7 @@ package com.jepaynedev.coupsandbox;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,9 @@ public class Player extends BaseObservable {
         // Player specific information
         this.screenName = screenName;
 
+
         // Give the player the starting influence
-        for (int i=0; i<STARTING_INFLUENCE; i++) {
+        for (int i = 0; i < STARTING_INFLUENCE; i++) {
             influence.add(new Influence(game.getDeck().drawCard()));
         }
         coins = STARTING_COINS;
@@ -109,12 +111,77 @@ public class Player extends BaseObservable {
      * Returns true if successfully returned
      */
     public boolean returnInfluenceCard(Deck deck, int id) {
+        Log.d("Player", "returning card with id = " + Integer.toString(id));
         Influence inf;
-        for (int i=0; i<influence.size(); i++) {
+        for (int i = 0; i < influence.size(); i++) {
             if (influence.get(i).getId() == id) {
-                deck.returnCard(influence.remove(1).getCharacter());
+                deck.returnCard(influence.remove(i).getCharacter());
             }
         }
         return false;
     }
+
+    public String toString() {
+        String returnString = "ScreenName:  " + getScreenName();
+
+        // Add coins
+        returnString += "\nCoins:  " + Integer.toString(getCoins());
+
+        // Display influences
+        List<String> influenceStrings = new ArrayList<String>();
+        for (Influence inf : influence) {
+            influenceStrings.add(inf.toString());
+        }
+        returnString += "\nHand:  " + influenceStrings.toString();
+
+        return returnString;
+    }
+
+    /*
+    public Integer getInfluenceDrawableId1() {
+        return getInfluenceDrawableId(0);
+    }
+
+    public Integer getInfluenceDrawableId2() {
+        return getInfluenceDrawableId(1);
+    }
+
+    private Integer getInfluenceDrawableId(int index) {
+        if (index < 0 || index > 1) {
+            throw new IllegalArgumentException();
+        }
+        Influence inf = getInfluence().get(index);
+        if (!inf.isRevealed()) {
+            return null;
+        }
+        switch (inf.getCharacter()) {
+            case DUKE:
+                return R.drawable.duke_icon;
+            case ASSASSIN:
+                return R.drawable.assassin_icon;
+            case AMBASSADOR:
+                return R.drawable.ambassador_icon;
+            case CONTESSA:
+                return R.drawable.contessa_icon;
+            case CAPTAIN:
+                return R.drawable.captain_icon;
+            default:
+                return null;
+        }
+    }
+
+    @BindingAdapter({"bind:influenceDrawableId1"})
+    public static void loadImage1(ImageView view, Integer influenceDrawableId) {
+        Picasso.with(view.getContext())
+                .load(influenceDrawableId)
+                .placeholder(R.drawable.hidden_icon);
+    }
+
+    @BindingAdapter({"bind:influenceDrawableId2"})
+    public static void loadImage2(ImageView view, Integer influenceDrawableId) {
+        Picasso.with(view.getContext())
+                .load(influenceDrawableId)
+                .placeholder(R.drawable.hidden_icon);
+    }
+    */
 }

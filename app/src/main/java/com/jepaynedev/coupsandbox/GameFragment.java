@@ -74,9 +74,11 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
         // Set buttons to use this interface as the onClick listener
         ((ImageButton)(fragmentView.findViewById(R.id.buttonCoinUp))).setOnClickListener(this);
         ((ImageButton)(fragmentView.findViewById(R.id.buttonCoinDown))).setOnClickListener(this);
-        ((ImageView)(fragmentView.findViewById(R.id.imageDeck))).setOnTouchListener(this);
-        ((ImageView)(fragmentView.findViewById(R.id.imageDeck))).setOnDragListener(this);
+        ((FrameLayout)(fragmentView.findViewById(R.id.frameDeck))).setOnTouchListener(this);
+        ((FrameLayout)(fragmentView.findViewById(R.id.frameDeck))).setOnDragListener(this);
         ((FrameLayout)(fragmentView.findViewById(R.id.frameHand))).setOnDragListener(this);
+        ((FrameLayout)(fragmentView.findViewById(R.id.framePlayers))).setOnDragListener(this);
+
 
         return binding.getRoot();
     }
@@ -96,7 +98,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (v.getId()) {
-            case R.id.imageDeck:
+            case R.id.frameDeck:
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     // Localstate indicates the origin is the deck'
                     v.startDrag(null, new View.DragShadowBuilder(v), null, 0);
@@ -128,8 +130,8 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
         if (event.getLocalState() == null) {
             validDestIds.add(R.id.frameHand);
         } else {
-            validDestIds.add(R.id.imageDeck);
-            validDestIds.add(R.id.listPlayers);
+            validDestIds.add(R.id.frameDeck);
+            validDestIds.add(R.id.framePlayers);
         }
 
 //        Log.d("debug", "view.getID() = " + Integer.toString(v.getId()));
@@ -157,7 +159,11 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
                     // TODO:  Look into if ACTION_DRAG_EXITED should be called after ACTION_DROP
                     v.setBackgroundResource(0);
                 }
+                else {
+                    return  false;
+                }
 
+                int imageId;
                 switch (v.getId()) {
                     case R.id.frameHand:
                         if (game.getCurrentPlayer().drawInfluenceCard(game.getDeck())) {
@@ -165,13 +171,17 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
                             return true;
                         }
                         return false;
-                    case R.id.imageDeck:
-                        int imageId = (Integer)event.getLocalState();
-                        // TODO:  Incorrect influences being returned (pos ID clash or incorrectly set ids?)
+                    case R.id.frameDeck:
+                        imageId = (Integer)event.getLocalState();
                         game.getCurrentPlayer().returnInfluenceCard(game.getDeck(), imageId);
                         // Redraw the influences
                         drawInfluence();
                         return true;
+                    case R.id.framePlayers:
+                        imageId = (Integer)event.getLocalState();
+                        game.getCurrentPlayer().getInfluence().get(imageId).reveal();
+                        return true;
+
                 }
         }
 
@@ -225,6 +235,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
         // Debug widths
 //        Log.d("scrollHand.getWidth()", Integer.toString(scrollHand.getWidth()));
 //        Log.d("layoutHand.getWidth()", Integer.toString(layoutHand.getWidth()));
+        Log.d("CurPlayer Info", game.getCurrentPlayer().toString());
     }
 
     /*
