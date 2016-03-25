@@ -34,6 +34,7 @@ import java.util.List;
  */
 public class GameFragment extends Fragment implements View.OnClickListener, View.OnDragListener, View.OnTouchListener {
 
+    private final int MIN_HAND_SIZE = 2;
     private final String DRAG_FLAG_DECK = "com.jepaynedev.coupsandbox.DECK";
     private final String DRAG_FLAG_CARD = "com.jepaynedev.coupsandbox.CARD";
     private final float SWIPE_UP_CARD_THRESHOLD = 100;
@@ -130,8 +131,11 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
         if (event.getLocalState() == null) {
             validDestIds.add(R.id.frameHand);
         } else {
-            validDestIds.add(R.id.frameDeck);
             validDestIds.add(R.id.framePlayers);
+            // We only allow cards to be returned if it will leave more than the min hand size left
+            if (game.getCurrentPlayer().getInfluence().size() > MIN_HAND_SIZE) {
+                validDestIds.add(R.id.frameDeck);
+            }
         }
 
 //        Log.d("debug", "view.getID() = " + Integer.toString(v.getId()));
@@ -179,7 +183,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
                         return true;
                     case R.id.framePlayers:
                         imageId = (Integer)event.getLocalState();
-                        game.getCurrentPlayer().getInfluence().get(imageId).reveal();
+                        game.getCurrentPlayer().getInfluence().get(imageId).setRevealed(true);
                         return true;
 
                 }
@@ -223,7 +227,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
 
             // Get Drawable card image
 //            Log.d("scrollHand.getHeight()", Integer.toString(scrollHand.getHeight()));
-            Drawable drawableInfluence = ContextCompat.getDrawable(getActivity(), influence.getDrawableId());
+            Drawable drawableInfluence = ContextCompat.getDrawable(getActivity(), influence.getCharacterCardId());
 
             // Set ImageView onTouchListener
             influenceImage.setOnTouchListener(this);

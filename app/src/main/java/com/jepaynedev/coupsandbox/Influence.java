@@ -1,13 +1,22 @@
 package com.jepaynedev.coupsandbox;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
+import android.util.Log;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
 /**
  * Created by Jim on 3/16/2016.
  */
-public class Influence {
+public class Influence extends BaseObservable {
 
     private Character character;
     private boolean revealed;
     private int id;
+    private int drawableIconId;
 
     /*
      * Constructs a new Influence instance, defaulting revealed to false
@@ -15,6 +24,7 @@ public class Influence {
     Influence(Character character) {
         this.character = character;
         this.revealed = false;
+        setDrawableIconId(getCharacterIconId());
     }
 
     /*
@@ -43,28 +53,66 @@ public class Influence {
     /*
      * Returns true if the influence is visible to all players
      */
-    public boolean isRevealed() {
+    @Bindable
+    public boolean getRevealed() {
         return revealed;
     }
 
     /*
-     * Marks the influence card as revealed to all players
+     * Set revealed status
      */
-    public void reveal() {
-        revealed = true;
-    }
-
-    /*
-     * Marks the influence card as hidden
-     */
-    public void hide() {
-        revealed = false;
+    public void setRevealed(boolean revealed) {
+        this.revealed = revealed;
+        notifyPropertyChanged(BR.revealed);
+        Log.d("Influence", "setRevealed = "+ this.revealed);
     }
 
     /*
      * Returns the id for the drawable resource for the given type
      */
-    public int getDrawableId() {
+    @Bindable
+    public int getDrawableIconId() {
+        return drawableIconId;
+    }
+
+    public void setDrawableIconId(int drawableIconId) {
+        this.drawableIconId = drawableIconId;
+        notifyPropertyChanged(BR.drawableIconId);
+        Log.d("Influence", "setDrawableIconId = " + this.drawableIconId);
+    }
+
+    @BindingAdapter({"bind:revealed", "bind:drawableIconId"})
+    public static void loadImage(ImageView view, boolean revealed, int drawableId) {
+        Log.d("Influence", "loadImage(revealed = " + revealed + ", drawableId = " + Integer.toString(drawableId) + ")");
+        if (revealed) {
+            Picasso.with(view.getContext()).load(drawableId).into(view);
+        }
+        else {
+            Picasso.with(view.getContext()).load(R.drawable.hidden_icon).into(view);
+        }
+    }
+
+    /*
+     * Gets a drawable id for the proper character
+     */
+    private Integer getCharacterIconId() {
+        switch (getCharacter()) {
+            case DUKE:
+                return R.drawable.duke_icon;
+            case ASSASSIN:
+                return R.drawable.assassin_icon;
+            case AMBASSADOR:
+                return R.drawable.ambassador_icon;
+            case CONTESSA:
+                return R.drawable.contessa_icon;
+            case CAPTAIN:
+                return R.drawable.captain_icon;
+            default:
+                return null;
+        }
+    }
+
+    public Integer getCharacterCardId() {
         switch (character) {
             case DUKE:
                 return R.drawable.card_duke;
@@ -90,6 +138,6 @@ public class Influence {
 
     public String toString() {
         return "(Char: " + getCharacter().name() + ", Id: " + Integer.toString(getId()) +
-                ", Revealed: " + isRevealed() + ")";
+                ", Revealed: " + getRevealed() + ")";
     }
 }

@@ -151,7 +151,7 @@ public class Player extends BaseObservable {
             throw new IllegalArgumentException();
         }
         Influence inf = getInfluence().get(index);
-        if (!inf.isRevealed()) {
+        if (!inf.getRevealed()) {
             return null;
         }
         switch (inf.getCharacter()) {
