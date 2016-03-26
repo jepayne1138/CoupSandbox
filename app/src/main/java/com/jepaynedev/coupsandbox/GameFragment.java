@@ -57,6 +57,22 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
         CoupActivity activity = (CoupActivity)getActivity();
         game = activity.game;
 
+        // Get arguments from launcher fragment
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(getString(R.string.keyScreenName))) {
+            game.setCurrentPlayer(game.addPlayer(bundle.getString(getString(R.string.keyScreenName))));
+        }
+        else {
+            // A screen name should always be passed, so this should not happen
+            throw new IllegalArgumentException("No ScreenName was passed to GameFragment");
+        }
+
+        // Add other players to the game
+        game.addPlayer("Casey");
+        game.addPlayer("Caitlin");
+        game.addPlayer("Adrian");
+        game.addPlayer("Ian");
+
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false);
         fragmentView = binding.getRoot();
@@ -72,6 +88,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, View
         PlayerListAdapter playerListAdapter = new PlayerListAdapter(game, getActivity());
         playerListView.setAdapter(playerListAdapter);
 
+        // Add listeners
         // Set buttons to use this interface as the onClick listener
         ((ImageButton)(fragmentView.findViewById(R.id.buttonCoinUp))).setOnClickListener(this);
         ((ImageButton)(fragmentView.findViewById(R.id.buttonCoinDown))).setOnClickListener(this);

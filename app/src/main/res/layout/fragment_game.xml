@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/charcoalGrey"
-        tools:context="com.jepaynedev.coupsandbox.CoupActivity">
+        tools:context="com.jepaynedev.coupsandbox.CoupActivity" >
 
         <FrameLayout
             android:layout_width="wrap_content"

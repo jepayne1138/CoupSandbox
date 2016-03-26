@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import layout.LauncherFragment;
+
 public class CoupActivity extends AppCompatActivity {
 
     public GameManager game;
@@ -14,17 +16,9 @@ public class CoupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Create the game instance
         game = new GameManager();
 
-        // Create the game instance
-        game.setCurrentPlayer(game.addPlayer("Jim"));
-        game.addPlayer("Casey");
-        game.addPlayer("Caitlin");
-        game.addPlayer("Adrian");
-        game.addPlayer("Ian");
-
-        GameFragment gameFragment = new GameFragment();
-
-        fragmentManager.beginTransaction().add(R.id.fragment_container, gameFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_container, new LauncherFragment()).commit();
     }
 }
