@@ -1,7 +1,8 @@
-package layout;
+package com.jepaynedev.coupsandbox;
 
 
-import android.support.v4.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class LauncherFragment extends Fragment implements View.OnClickListener, 
     private EditText editScreenName;
     private Button buttonNewGame;
     private Button buttonJoinGame;
+    private CoupActivity activity;
 
     public LauncherFragment() {
         // Required empty public constructor
@@ -39,7 +41,7 @@ public class LauncherFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        CoupActivity activity = (CoupActivity)getActivity();
+        activity = (CoupActivity)getActivity();
 
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_launcher, container, false);
@@ -50,14 +52,20 @@ public class LauncherFragment extends Fragment implements View.OnClickListener, 
         buttonNewGame = (Button)(fragmentView.findViewById(R.id.buttonNewGame));
         buttonJoinGame = (Button)(fragmentView.findViewById(R.id.buttonJoinGame));
 
+        // Set saved value for the screen name
+        SharedPreferences preferences = activity.getSharedPreferences(
+                getString(R.string.keyPreferenceFile), Context.MODE_PRIVATE);
+        editScreenName.setText(preferences.getString(getString(R.string.keyPreferenceScreenName), ""));
+
         // Add listeners
         editScreenName.addTextChangedListener(this);
         buttonNewGame.setOnClickListener(this);
         buttonJoinGame.setOnClickListener(this);
 
         // By default, both buttons are disabled until conditions are met (input ScreenName)
-        buttonNewGame.setEnabled(false);
         buttonJoinGame.setEnabled(false);
+        // Check to enable buttons
+        enableButtonsIfHasScreenName();
 
         return binding.getRoot();
     }
@@ -71,6 +79,12 @@ public class LauncherFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void afterTextChanged(Editable s) {
         enableButtonsIfHasScreenName();
+        // Save the current ScreenName to preferences
+        SharedPreferences.Editor editor = activity.getSharedPreferences(
+                getString(R.string.keyPreferenceFile), Context.MODE_PRIVATE).edit();
+        editor.putString(
+                getString(R.string.keyPreferenceScreenName), editScreenName.getText().toString());
+        editor.commit();
     }
 
     private void enableButtonsIfHasScreenName() {

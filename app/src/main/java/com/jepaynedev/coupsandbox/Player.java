@@ -115,7 +115,10 @@ public class Player extends BaseObservable {
         Influence inf;
         for (int i = 0; i < influence.size(); i++) {
             if (influence.get(i).getId() == id) {
-                deck.returnCard(influence.remove(i).getCharacter());
+                Influence removeInfluence = influence.remove(i);
+                // Un-reveal the influence card if it was revealed
+                removeInfluence.setRevealed(false);
+                deck.returnCard(removeInfluence.getCharacter());
             }
         }
         return false;

@@ -1,10 +1,9 @@
 package com.jepaynedev.coupsandbox;
 
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import layout.LauncherFragment;
 
 public class CoupActivity extends AppCompatActivity {
 

@@ -8,4 +8,6 @@
 
     <!-- Unique string constants -->
     <string name="keyScreenName">com.jepaynedev.coupsandbox.SCREEN_NAME_KEY</string>
+    <string name="keyPreferenceFile">com.jepaynedev.coupsandbox.PREFERENCE_FILE</string>
+    <string name="keyPreferenceScreenName">com.jepaynedev.coupsandbox.PREFERENCE_SCREEN_NAME</string>
 </resources>
